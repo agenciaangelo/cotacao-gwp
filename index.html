@@ -377,9 +377,29 @@ function familia(desc){
   else if(/NPT/.test(d) && /MACHO|^MF|\bMF\b/.test(d) && !/FF|X\s*FF|X\s*M\.?JIC|JIC/.test(d)) f='NPTM';
   else if(/FLANGE|^FL\s|\bFL\b/.test(d)) f='FL';
   else if(/EMENDA/.test(d)) f='EMENDA';
-  else if(/CAPA/.test(d)) f='CAPA';
-  else if(/ADAP|^AD\.|BUCHA/.test(d)) f='ADAP';
+  else if(/CAPA/.test(d)) f='CAPA'+capaTipo(d);
+  else if(/ADAP|^AD\.|BUCHA/.test(d)) f='ADAP'+adapTipo(d);
   return f + ang + (f==='JIC'||f==='FL'?longa:'');
+}
+function capaTipo(d){                 // distingue tipos de capa (mesma dimensão, produtos diferentes)
+  if(/SKIVE\s*LISA|4SH|4SP|R12/.test(d)) return 'LISA';
+  if(/R1AT/.test(d)) return 'R1AT';
+  if(/R17/.test(d)) return 'R17';
+  if(/R14/.test(d)) return 'R14';
+  if(/R13/.test(d)) return 'R13';
+  if(/NO\s*SKIVE|R1\/R2|\bR1\b|\bR2\b/.test(d)) return 'R12';
+  return '';
+}
+function adapTipo(d){                 // distingue tipos de adaptador pelas pontas
+  if(/BUCHA/.test(d)) return 'BU';
+  let s='';
+  if(/M\.?N[TP]{2}|M\.?NPT/.test(d)) s+='MN';
+  if(/M\.?JIC/.test(d)) s+='MJ';
+  if(/M\.?UNF/.test(d)) s+='MU';
+  if(/FEMEA/.test(d)) s+='FE';
+  if(/\bFF\b/.test(d)) s+='FF';
+  if(/ORING|O-RING|ORFS/.test(d)) s+='OR';
+  return s||'X';
 }
 function dims(codigo, desc){
   let c=(codigo||'').toUpperCase().trim();
@@ -528,7 +548,7 @@ function renderQueue(){
       <div class="fic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
       <div class="qmeta">
         <b>${a.nome}</b>
-        <span>${a.cotacao?a.cotacao.itens.length+' itens lidos':'nomeie o fornecedor (opcional)'}</span>
+        <span>${a.status==='err'&&a.erro?'<span style=\"color:var(--danger)\">'+a.erro+'</span>':a.cotacao?a.cotacao.itens.length+' itens lidos':'nomeie o fornecedor (opcional)'}</span>
       </div>
       ${a.status==='wait'?`<input class="qname" value="${a.apelido}" onchange="arquivos[${i}].apelido=this.value" placeholder="fornecedor">`:''}
       <div class="qstat ${a.status==='wait'?'s-wait':a.status==='run'?'s-run':a.status==='done'?'s-done':'s-err'}">
@@ -544,19 +564,18 @@ $('#analyze').onclick=async()=>{
   $('#analyze').disabled=true; cotacoes=[]; DEMO_MODE=false;
   Loader.start(['Lendo os PDFs das cotacoes...','Extraindo itens e precos...','Conferindo a aritmetica linha a linha...']);
   try{
-    let i=0;
+    let i=0; let ultimoErro='';
     for(const a of arquivos){
       i++;
       if(a.status==='done'){ cotacoes.push(a.cotacao); Loader.milestone(Math.round(i/arquivos.length*78)); continue; }
-      a.status='run'; Loader.milestone(Math.round((i-1)/arquivos.length*78), 'Lendo '+(a.apelido||a.nome)+'...'); renderQueue();
+      a.status='run'; a.erro=''; Loader.milestone(Math.round((i-1)/arquivos.length*78), 'Lendo '+(a.apelido||a.nome)+'...'); renderQueue();
       try{
         const cot=await extrair(a.base64, a.apelido||a.nome);
         if(a.apelido) cot.fornecedor=a.apelido;
         cot.itens.forEach(validar);
         a.cotacao=cot; a.status='done'; cotacoes.push(cot);
       }catch(err){
-        a.status='err';
-        modal('Nao consegui ler '+a.nome, '<p>'+err.message+'</p><p style="margin-top:8px">A leitura usa IA e precisa de conexao. Tente novamente, ou use <b>Ver com exemplo</b> para conhecer o restante do sistema.</p>');
+        a.status='err'; a.erro=err.message; ultimoErro=err.message;
       }
       Loader.milestone(Math.round(i/arquivos.length*78)); renderQueue();
     }
@@ -565,10 +584,13 @@ $('#analyze').onclick=async()=>{
       await new Promise(r=>setTimeout(r,300));
       Loader.milestone(93,'Comparando precos...');
       await mostrarResultados();
+    } else if(ultimoErro){
+      await Loader.done();
+      modal('Falha na leitura', '<p>Nenhuma cotacao foi lida. Mensagem do servidor:</p><p style="margin-top:8px;padding:10px;background:#fbeae8;border-radius:8px;font-family:var(--mono);font-size:12px;color:var(--danger)">'+ultimoErro+'</p><p style="margin-top:10px">Isso quase sempre e a implantacao do Apps Script. Confira: (1) implantacao com acesso <b>"Qualquer pessoa"</b>; (2) propriedade <b>ANTHROPIC_KEY</b> definida no script; (3) voce autorizou o script ao salva-lo.</p>');
     }
   } finally {
     $('#analyze').disabled=false;
-    await Loader.done();
+    if(cotacoes.length) await Loader.done();
   }
 };
 
@@ -591,6 +613,7 @@ async function mostrarResultados(){
   const grupos=new Map();
   for(const cot of cotacoes) for(const it of cot.itens){
     let k = await overrideKey(it.codigo) || chave(it.codigo,it.descricao);
+    if(grupos.has(k) && grupos.get(k).items[cot.fornecedor]) k = k+'#'+it.codigo;  // mesmo fornecedor = produto distinto
     if(!grupos.has(k)) grupos.set(k,{chave:k, fam:familia(it.descricao), desc:it.descricao, code:it.codigo, precos:{}, items:{}});
     const g=grupos.get(k); g.precos[cot.fornecedor]=it.precoFinal; g.items[cot.fornecedor]=it;
   }
