@@ -24,6 +24,7 @@
   }
   *{box-sizing:border-box}
   html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased}
+  body{overflow-x:hidden}
   body{padding-bottom:70px}
   button{font-family:inherit;cursor:pointer;border:none;background:none}
   input,select{font-family:inherit}
@@ -46,12 +47,24 @@
   .icobtn{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.1);color:#fff;display:grid;place-items:center;transition:.15s}
   .icobtn:hover{background:rgba(255,255,255,.2)}
 
-  /* ---- stage ---- */
-  .stage{padding:34px 0 40px}
-  .lead{max-width:660px}
-  .lead h1{font-family:var(--disp);font-weight:600;font-size:29px;line-height:1.13;letter-spacing:-.6px;margin:0 0 10px}
-  .lead p{color:var(--ink-soft);font-size:15px;line-height:1.55;margin:0}
-  .drop{margin-top:26px;background:var(--card);border:2px dashed #c4ccec;border-radius:18px;padding:36px 26px;text-align:center;transition:.18s;box-shadow:var(--shadow)}
+  /* ---- stage / abertura institucional ---- */
+  body.landing header{display:none}
+  .stage{padding:0 0 40px}
+  .hero{width:100vw;position:relative;left:50%;margin-left:-50vw;background:linear-gradient(160deg,#12309a 0%,#0D2682 55%,#071650 100%);color:#fff;padding:48px 22px 46px;text-align:center;overflow:hidden}
+  .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:linear-gradient(90deg,var(--gold-1),var(--gold-2),var(--gold-3),var(--gold-2),var(--gold-1))}
+  .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 100% at 50% 0%,rgba(152,232,219,.12),transparent 70%);pointer-events:none}
+  .hero-inner{max-width:680px;margin:0 auto;position:relative;z-index:1}
+  .hero-logo{height:94px;margin:0 auto 20px;display:block;filter:drop-shadow(0 12px 34px rgba(0,0,0,.35))}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--mint);margin-bottom:12px}
+  .hero h1{font-family:var(--disp);font-weight:700;font-size:38px;line-height:1.08;letter-spacing:-1px;margin:0 0 14px}
+  .hero-sub{color:#c9d3ff;font-size:16px;line-height:1.6;margin:0 auto;max-width:600px}
+  .stage-body{max-width:760px;margin:-30px auto 0;position:relative;z-index:2}
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
+  .feat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+  .feat-ic{width:40px;height:40px;border-radius:11px;background:linear-gradient(150deg,var(--navy),var(--navy-deep));color:var(--mint);display:grid;place-items:center;margin-bottom:12px}
+  .feat b{font-family:var(--disp);font-size:15px;display:block;margin-bottom:5px}
+  .feat span{font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+  .drop{margin-top:0;background:var(--card);border:2px dashed #c4ccec;border-radius:18px;padding:34px 26px;text-align:center;transition:.18s;box-shadow:0 12px 40px rgba(9,29,99,.1)}
   .drop.hot{border-color:var(--mint-deep);background:linear-gradient(180deg,#f2fdfb,#fff)}
   .drop .ic{width:52px;height:52px;border-radius:14px;margin:0 auto 14px;display:grid;place-items:center;background:linear-gradient(150deg,var(--navy),var(--navy-deep));color:var(--mint)}
   .drop h3{font-family:var(--disp);font-weight:600;font-size:18px;margin:0 0 6px}
@@ -127,11 +140,31 @@
   .histbtn{color:var(--navy);opacity:.55;cursor:pointer;display:inline-flex}
   .histbtn:hover{opacity:1}
   td.num{text-align:right;font-family:var(--mono);font-weight:500;white-space:nowrap}
+  /* flexível para 2 a 4+ fornecedores: colunas com largura mínima legível; com poucas, preenchem a largura */
+  thead th.num,tbody td.num{min-width:116px}
+  thead th:first-child,tbody td:first-child{min-width:230px}
   .price{position:relative;display:inline-flex;align-items:center;gap:6px;justify-content:flex-end}
   .cell-win{background:var(--win-bg)}
   .cell-win .price{color:var(--win);font-weight:700}
   .cell-win::after{content:"melhor";position:absolute;font-family:var(--disp);font-size:8px;font-weight:600;color:var(--win);opacity:.7;transform:translateY(11px)}
   .cell-empty{color:var(--ink-faint);font-family:var(--mono);font-size:11px}
+  /* célula sem cotação: texto explicativo + inserir preço */
+  .cell-np{cursor:pointer;text-align:right;white-space:normal;line-height:1.25}
+  .cell-np .txt{font-family:var(--body);font-size:10px;color:var(--ink-faint);display:block}
+  .cell-np .add{font-family:var(--disp);font-size:10.5px;font-weight:600;color:var(--mint-deep);display:block;margin-top:3px}
+  .cell-np:hover .add{text-decoration:underline}
+  .np-input{width:92px;padding:6px 7px;border:1px solid var(--mint-deep);border-radius:7px;font-family:var(--mono);font-size:12px;text-align:right}
+  .stamp.man{background:#eef1fb;color:var(--navy)}
+  .manu-edit{font-family:var(--disp);font-size:9px;color:var(--ink-faint);cursor:pointer;display:block;margin-top:2px}
+  .manu-edit:hover{color:var(--navy);text-decoration:underline}
+  /* menu de navegação (Organizar / Análise) */
+  .menu{display:flex;align-items:center;gap:8px;margin:6px 0 18px;flex-wrap:wrap;border-bottom:2px solid var(--line);padding-bottom:0}
+  .menu-tab{font-family:var(--disp);font-weight:600;font-size:14px;color:var(--ink-soft);padding:11px 16px;border-radius:10px 10px 0 0;display:flex;align-items:center;gap:8px;position:relative;top:2px;border-bottom:3px solid transparent}
+  .menu-tab .n{width:20px;height:20px;border-radius:50%;background:#eef1fb;color:var(--ink-soft);font-size:11px;display:grid;place-items:center}
+  .menu-tab:hover{color:var(--navy)}
+  .menu-tab.on{color:var(--navy);border-bottom-color:var(--gold-1)}
+  .menu-tab.on .n{background:var(--navy);color:#fff}
+  .menu-reset{margin-left:auto;top:-2px;position:relative}
   .trend{font-family:var(--mono);font-size:10px;font-weight:700;margin-left:5px}
   .up{color:var(--danger)} .down{color:var(--win)} .flat{color:var(--ink-faint)}
   .stamp{width:14px;height:14px;border-radius:50%;display:inline-grid;place-items:center;flex:0 0 auto;font-size:9px}
@@ -207,7 +240,13 @@
     .ld-logo{height:52px;margin-bottom:22px}
     .brandLogo{height:38px}
     .modal{padding:20px}
+    .hero{padding:36px 18px 38px}
+    .hero-logo{height:72px;margin-bottom:16px}
+    .hero h1{font-size:27px}
+    .hero-sub{font-size:14.5px}
+    .features{grid-template-columns:1fr;gap:10px}
   }
+  @media(max-width:700px){ .features{grid-template-columns:1fr} }
   @media print{
     header::after{display:none}
     .toolbar,.toggles,.rgroup,.review,footer,.drop,.stage,.modal-back{display:none!important}
@@ -217,6 +256,41 @@
     .cell-win{background:#e6f7f2!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
     .kpi{box-shadow:none}
   }
+
+  /* ---- organizar produtos (arrastar e soltar) ---- */
+  .organizar{display:none;padding:10px 0 50px}
+  .organizar.on{display:block;animation:fade .3s ease}
+  .org-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+  .org-head h2{font-family:var(--disp);font-weight:600;font-size:21px;margin:0}
+  .org-sub{font-size:12.5px;color:var(--ink-soft);margin:3px 0 0}
+  .org-actions{display:flex;gap:8px}
+  .org-howto{background:#eef5ff;border:1px solid #d6e2fb;border-radius:12px;padding:12px 14px;font-size:12.5px;color:var(--ink);line-height:1.55;margin:12px 0}
+  .org-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+  .org-search{flex:1;min-width:200px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:13px}
+  .org-check{font-size:12.5px;color:var(--ink-soft);display:flex;align-items:center;gap:6px;cursor:pointer;white-space:nowrap}
+  .org-moving{font-family:var(--disp);font-size:12.5px;font-weight:600;color:var(--mint-deep)}
+  .org-split{border:2px dashed #c9a24a;background:#fdf7e8;border-radius:12px;padding:12px;text-align:center;font-size:13px;color:var(--warn);margin-bottom:16px;transition:.15s}
+  .org-split.hot{background:#f9ecc9;border-color:var(--gold-1)}
+  .org-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+  .org-box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow);transition:.15s}
+  .org-box.hot{border-color:var(--mint-deep);box-shadow:0 0 0 3px rgba(79,191,174,.25)}
+  .org-box.single{border-left:3px solid var(--gold-1)}
+  .org-box-h{display:flex;align-items:center;gap:7px;margin-bottom:9px}
+  .org-box-h .fam{margin:0}
+  .org-box-h b{font-size:12.5px;line-height:1.2}
+  .org-box-h .cnt{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--ink-faint)}
+  .org-chip{display:flex;align-items:center;gap:9px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;margin-top:7px;background:#fbfcff;cursor:grab;transition:.12s;touch-action:pan-y}
+  .org-chip:hover{border-color:#c4ccec;background:#fff}
+  .org-chip.sel{border-color:var(--mint-deep);background:#f2fdfb;box-shadow:0 0 0 2px rgba(79,191,174,.3)}
+  .org-chip.ghost{opacity:.4}
+  .org-chip .grip{color:var(--ink-faint);font-size:13px;flex:0 0 auto}
+  .org-chip .ci{flex:1;min-width:0}
+  .org-chip .ci .cf{font-size:11.5px;font-weight:600;color:var(--navy)}
+  .org-chip .ci .cd{font-size:11px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .org-chip .ci .cc{font-family:var(--mono);font-size:9.5px;color:var(--ink-faint)}
+  .org-chip .cp{font-family:var(--mono);font-size:11.5px;font-weight:700;white-space:nowrap}
+  .org-drag{position:fixed;z-index:200;pointer-events:none;background:var(--navy);color:#fff;padding:8px 12px;border-radius:10px;font-size:12px;font-weight:600;box-shadow:0 10px 30px rgba(7,22,80,.4);max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  @media(max-width:560px){ .org-grid{grid-template-columns:1fr} .org-howto{font-size:12px} }
 
   /* ---- loader (tela de carregamento estilo Floema) ---- */
   .loader-back{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;background:radial-gradient(120% 120% at 50% 0%,#12309a 0%,#0D2682 45%,#071650 100%);color:#fff}
@@ -228,10 +302,11 @@
   .loader .track{height:8px;border-radius:6px;background:rgba(255,255,255,.15);margin:24px 0 18px;overflow:hidden}
   .loader .fill{height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,var(--mint),var(--mint-deep));transition:width .45s cubic-bezier(.4,0,.2,1)}
   .loader .msg{font-family:var(--disp);font-size:15.5px;font-weight:500;color:#dbe3ff;min-height:22px}
+  .loader .eta{font-family:var(--mono);font-size:13px;color:var(--mint);margin-top:10px;min-height:17px}
   .loader .sub{font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:#7f8bc4;margin-top:8px}
 </style>
 </head>
-<body>
+<body class="landing">
 
 <header>
   <div class="wrap topbar">
@@ -242,28 +317,55 @@
 
 <main class="wrap">
   <section class="stage" id="stage">
-    <div class="lead">
-      <h1>Compare cotações de fornecedores e veja quem tem o melhor preço — item por item.</h1>
-      <p>Arraste os PDFs das cotações. O sistema lê cada documento, <b>confere a aritmética de cada linha</b>, casa os produtos entre fornecedores mesmo com códigos diferentes, e mostra o vencedor por item, a economia total e a variação de preço desde a última compra.</p>
-    </div>
-
-    <div class="drop" id="drop">
-      <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4m0 0L7 9m5-5l5 5"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg></div>
-      <h3>Solte as cotações aqui</h3>
-      <p>PDF · um arquivo por fornecedor · vários de uma vez</p>
-      <div class="actions">
-        <button class="btn btn-primary" id="pick">Selecionar PDFs</button>
-        <button class="btn btn-ghost" id="demo">Ver com exemplo (Belenus × Suprir)</button>
+    <div class="hero">
+      <div class="hero-inner">
+        <img class="hero-logo" id="heroLogo" alt="GWP Mangueiras e Conexões">
+        <div class="eyebrow">GWP Mangueiras e Conexões</div>
+        <h1>Sistema de Análise de Cotações</h1>
+        <p class="hero-sub">Compare cotações de fornecedores em segundos. O sistema lê os PDFs, confere a aritmética de cada linha, identifica os produtos iguais mesmo com códigos diferentes e mostra quem tem o melhor preço — item por item.</p>
       </div>
-      <div class="hint" id="dropHint">Um arquivo por fornecedor. O sistema lê, confere a aritmética e compara automaticamente.</div>
-      <input type="file" id="file" accept="application/pdf" multiple class="sr">
     </div>
 
-    <div class="queue" id="queue"></div>
-    <div style="text-align:center;margin-top:18px">
-      <button class="btn btn-primary" id="analyze" style="display:none">Analisar cotações →</button>
+    <div class="stage-body">
+      <div class="drop" id="drop">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4m0 0L7 9m5-5l5 5"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg></div>
+        <h3>Comece agora — solte as cotações aqui</h3>
+        <p>PDF · um arquivo por fornecedor · vários de uma vez</p>
+        <div class="actions">
+          <button class="btn btn-primary" id="pick">Selecionar PDFs</button>
+          <button class="btn btn-ghost" id="demo">Ver com exemplo (Belenus × Suprir)</button>
+        </div>
+        <div class="hint" id="dropHint">Um arquivo por fornecedor. O sistema lê, confere a aritmética e compara automaticamente.</div>
+        <input type="file" id="file" accept="application/pdf" multiple class="sr">
+      </div>
+
+      <div class="queue" id="queue"></div>
+      <div style="text-align:center;margin-top:18px">
+        <button class="btn btn-primary" id="analyze" style="display:none">Analisar cotações →</button>
+      </div>
+
+      <div class="features">
+        <div class="feat">
+          <div class="feat-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg></div>
+          <b>Lê os PDFs</b><span>Extrai itens, quantidades e preços de qualquer layout de cotação, com conferência da aritmética.</span>
+        </div>
+        <div class="feat">
+          <div class="feat-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 7h11l-3-3M17 17H6l3 3"/></svg></div>
+          <b>Organiza os iguais</b><span>Casa o mesmo produto entre fornecedores, mesmo com códigos e nomes diferentes — e aprende.</span>
+        </div>
+        <div class="feat">
+          <div class="feat-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9V4h12v5a6 6 0 01-12 0zM4 5h2M18 5h2M9 20h6M12 15v5"/></svg></div>
+          <b>Mostra o melhor</b><span>Vencedor por item, economia total e variação de preço desde a última compra.</span>
+        </div>
+      </div>
     </div>
   </section>
+
+  <nav class="menu" id="menu" style="display:none">
+    <button class="menu-tab" data-view="org" id="tabOrg"><span class="n">1</span> Organizar produtos</button>
+    <button class="menu-tab" data-view="analise" id="tabAnalise"><span class="n">2</span> Análise de cotações</button>
+    <button class="btn btn-ghost btn-sm menu-reset" id="reset2">Analisar outras</button>
+  </nav>
 
   <section class="results" id="results">
     <div class="kpis" id="kpis"></div>
@@ -277,6 +379,7 @@
           <button class="tg on" data-mode="unit" id="tgUnit">Preço unitário</button>
           <button class="tg" data-mode="imp" id="tgImp">Com IPI/impostos</button>
         </div>
+        <button class="btn btn-primary btn-sm" id="btnOrganizar">⇄ Organizar produtos</button>
         <button class="btn btn-ghost btn-sm" id="expCsv">Exportar CSV</button>
         <button class="btn btn-ghost btn-sm" id="expPrint">Imprimir / PDF</button>
       </div>
@@ -289,15 +392,39 @@
 
     <div class="review" id="review" style="display:none">
       <h3>Itens para conferir</h3>
-      <p>Estes itens não casaram automaticamente com alta confiança, ou a conta não fechou com o subtotal do PDF. Confirme o pareamento — o sistema memoriza a sua escolha para as próximas cotações.</p>
+      <p>Nestes itens a conta não fechou: preço × quantidade ficou diferente do subtotal impresso no PDF. Vale conferir manualmente o valor na cotação original. Para unir ou separar produtos iguais, use <b>“Organizar produtos”</b>.</p>
       <div id="revlist"></div>
     </div>
 
     <footer>
-      <div class="legend"><span class="stamp ok" style="display:inline-grid">✓</span> conferido (preço × qtde fecha com o subtotal) &nbsp;·&nbsp; <span class="stamp bad" style="display:inline-grid">!</span> conta não fechou, conferir &nbsp;·&nbsp; <b>sem cotação</b> = o fornecedor não incluiu o item</div>
+      <div class="legend"><span class="stamp ok" style="display:inline-grid">✓</span> conferido &nbsp;·&nbsp; <span class="stamp bad" style="display:inline-grid">!</span> conta não fechou &nbsp;·&nbsp; <span class="stamp man" style="display:inline-grid">✎</span> preço inserido manualmente &nbsp;·&nbsp; clique na célula vazia para inserir um preço</div>
       GWP Mangueiras e Conexões · sistema de análise de cotações
       <br><button class="btn btn-ghost btn-sm" id="reset" style="margin-top:12px">Analisar outras cotações</button>
     </footer>
+  </section>
+
+  <!-- ORGANIZAR PRODUTOS (arrastar e soltar) -->
+  <section class="organizar" id="organizar">
+    <div class="org-head">
+      <div>
+        <h2>Organizar produtos</h2>
+        <p class="org-sub" id="orgSub"></p>
+      </div>
+      <div class="org-actions">
+        <button class="btn btn-ghost btn-sm" id="orgCancel">Cancelar</button>
+        <button class="btn btn-primary btn-sm" id="orgSave">Salvar organização</button>
+      </div>
+    </div>
+    <div class="org-howto">
+      <b>Como usar:</b> arraste um item para dentro de outro produto para marcá‑los como <b>iguais</b>. Arraste para a faixa <b>“Separar”</b> para tirar um item que foi casado errado. No celular: <b>toque</b> no item e depois toque no destino.
+    </div>
+    <div class="org-toolbar">
+      <input type="text" id="orgSearch" class="org-search" placeholder="Filtrar por nome ou código...">
+      <label class="org-check"><input type="checkbox" id="orgSoFalta"> mostrar só itens sem par</label>
+      <span class="org-moving" id="orgMoving"></span>
+    </div>
+    <div class="org-split" id="orgSplit" data-drop="split">⤵ Soltar aqui para <b>separar</b> em um produto só</div>
+    <div class="org-grid" id="orgGrid"></div>
   </section>
 </main>
 
@@ -308,6 +435,7 @@
     <div class="pct" id="ldPct">0%</div>
     <div class="track"><div class="fill" id="ldFill"></div></div>
     <div class="msg" id="ldMsg">Preparando…</div>
+    <div class="eta" id="ldEta"></div>
     <div class="sub">GWP · Análise de Cotações</div>
   </div>
 </div>
@@ -365,7 +493,7 @@ async function loadCfg(){
   CFG.url=(await store.get('cfg:url'))||APPS_SCRIPT_URL||'';
   CFG.key=(await store.get('cfg:key'))||'';
   CFG.model=(await store.get('cfg:model'))||'claude-sonnet-5';
-  $('#brandLogo').src=LOGO; $('#loaderLogo').src=LOGO;
+  $('#brandLogo').src=LOGO; $('#loaderLogo').src=LOGO; const hl=$('#heroLogo'); if(hl)hl.src=LOGO;
 }
 
 /* ---------- backend Apps Script ---------- */
@@ -375,34 +503,49 @@ async function appsScript(acao, payload){
   if(!data.ok) throw new Error(data.erro||'Erro no Apps Script');
   return data;
 }
-let DEMO_MODE=false, HISTCACHE={}, DEPARACACHE={};
+let DEMO_MODE=false, HISTCACHE={}, DEPARACACHE={}, MANUAL={};
 function usaSheets(){ return CFG.url && !DEMO_MODE; }
 async function carregarBanco(){
   if(usaSheets()){
     const d=await appsScript('historico',{});
-    HISTCACHE=d.hist||{}; DEPARACACHE=d.depara||{};
+    HISTCACHE=d.hist||{}; DEPARACACHE=d.depara||{}; MANUAL=d.manual||{};   // preços manuais compartilhados (Sheets)
   }else{
     HISTCACHE={}; for(const key of await store.list('hist:')){ const l=await store.get(key); if(l) HISTCACHE[key.slice(5)]=JSON.parse(l); }
     DEPARACACHE={}; for(const key of await store.list('depara:')){ const v=await store.get(key); if(v) DEPARACACHE[key.slice(7)]=v; }
+    MANUAL={}; for(const key of await store.list('manual:')){ const v=await store.get(key); if(v!=null) MANUAL[key.slice(7)]=parseFloat(v); }
   }
+}
+/* grava/remove um preço manual (compartilhado no Sheets, ou local) */
+async function setPrecoManual(forn, chaveK, preco){
+  const key=forn+'||'+chaveK, ok=(preco && preco>0);
+  if(ok) MANUAL[key]=preco; else delete MANUAL[key];
+  if(usaSheets()){ try{ await appsScript('preco_manual',{forn:forn, chave:chaveK, preco: ok?preco:''}); }catch(e){ console.warn('Sheets/preco_manual:',e); } }
+  else { if(ok) await store.set('manual:'+key, String(preco)); else await store.del('manual:'+key); }
 }
 
 /* ---------- tela de carregamento (estilo Floema: overlay cheio + % com marcos reais + mensagens rotativas) ---------- */
 const Loader={
-  val:0, cap:8, timer:null, mt:null, msgs:[], mi:0,
-  start(msgs){
+  val:0, cap:8, timer:null, mt:null, et:null, remaining:0, msgs:[], mi:0,
+  start(msgs, etaSecs){
     this.msgs=(msgs&&msgs.length)?msgs:['Processando...']; this.mi=0; this.val=0; this.cap=8;
     $('#ldMsg').textContent=this.msgs[0]; this.render();
     $('#loaderBack').classList.add('on');
     // avança suave em direção ao teto atual (que sobe a cada etapa real)
     this.timer=setInterval(()=>{ if(this.val<this.cap){ this.val += Math.max(.25,(this.cap-this.val)*0.12); if(this.val>this.cap)this.val=this.cap; this.render(); } },90);
     this.mt=setInterval(()=>{ this.mi=(this.mi+1)%this.msgs.length; $('#ldMsg').textContent=this.msgs[this.mi]; },1900);
+    // contagem de tempo restante (ETA), só quando informado
+    clearInterval(this.et); this.et=null;
+    if(etaSecs){ this.remaining=Math.max(2,Math.round(etaSecs)); this.renderEta();
+      this.et=setInterval(()=>{ if(this.remaining>1){ this.remaining--; this.renderEta(); } },1000);
+    } else { $('#ldEta').textContent=''; }
   },
+  setEta(secs){ if(this.et){ this.remaining=Math.max(1,Math.round(secs)); this.renderEta(); } },
+  renderEta(){ $('#ldEta').textContent = this.remaining>1 ? ('cerca de '+this.remaining+' s restantes') : 'quase lá...'; },
   milestone(p,msg){ if(p>this.cap)this.cap=p; if(msg)$('#ldMsg').textContent=msg; },   // sobe o teto; a barra alcança sozinha
   render(){ const v=Math.round(this.val); $('#ldPct').textContent=v+'%'; $('#ldFill').style.width=v+'%'; },
   async done(){
-    clearInterval(this.timer); clearInterval(this.mt); this.timer=this.mt=null;
-    this.cap=100;
+    clearInterval(this.timer); clearInterval(this.mt); clearInterval(this.et); this.timer=this.mt=this.et=null;
+    this.cap=100; this.remaining=0; $('#ldEta').textContent='';
     // sobe rápido e uniforme até 100
     await new Promise(res=>{ const t=setInterval(()=>{ this.val=Math.min(100,this.val+4); this.render(); if(this.val>=100){clearInterval(t);res();} },20); });
     $('#ldMsg').textContent='Pronto';
@@ -612,13 +755,17 @@ window.removeFile=i=>{ arquivos.splice(i,1); renderQueue(); };
 
 $('#analyze').onclick=async()=>{
   $('#analyze').disabled=true; cotacoes=[]; DEMO_MODE=false;
-  Loader.start(['Lendo os PDFs das cotacoes...','Extraindo itens e precos...','Conferindo a aritmetica linha a linha...']);
+  const pendentes = arquivos.filter(a=>a.status!=='done').length || arquivos.length;
+  let spf = parseFloat(await store.get('cfg:secsPerFile'))||10;    // segundos por arquivo (aprendido entre sessões)
+  const durs=[];
+  Loader.start(['Lendo os PDFs das cotacoes...','Extraindo itens e precos...','Conferindo a aritmetica linha a linha...'], pendentes*spf + 3);
   try{
     let i=0; let ultimoErro='';
     for(const a of arquivos){
       i++;
-      if(a.status==='done'){ cotacoes.push(a.cotacao); Loader.milestone(Math.round(i/arquivos.length*78)); continue; }
+      if(a.status==='done'){ cotacoes.push(a.cotacao); Loader.milestone(Math.round(i/arquivos.length*80)); continue; }
       a.status='run'; a.erro=''; Loader.milestone(Math.round(i/arquivos.length*80), 'Lendo '+(a.apelido||a.nome)+'...'); renderQueue();
+      const t0=performance.now();
       try{
         const cot=await extrair(a.base64, a.apelido||a.nome);
         if(a.apelido) cot.fornecedor=a.apelido;
@@ -627,10 +774,14 @@ $('#analyze').onclick=async()=>{
       }catch(err){
         a.status='err'; a.erro=err.message; ultimoErro=err.message;
       }
+      const dt=(performance.now()-t0)/1000;
+      if(dt>0.5 && dt<300) durs.push(dt);                          // mede só leituras reais
+      if(durs.length) spf = durs.reduce((x,y)=>x+y,0)/durs.length; // média medida nesta sessão
+      Loader.setEta((arquivos.length - i)*spf + 2);                // recalcula o tempo restante
       Loader.milestone(Math.round(i/arquivos.length*80)); renderQueue();
     }
     if(cotacoes.length){
-      Loader.milestone(87,'Casando produtos entre fornecedores...');
+      Loader.milestone(87,'Casando produtos entre fornecedores...'); Loader.setEta(2);
       await new Promise(r=>setTimeout(r,300));
       Loader.milestone(94,'Comparando precos...');
       await mostrarResultados();
@@ -639,6 +790,7 @@ $('#analyze').onclick=async()=>{
       modal('Falha na leitura', '<p>Nenhuma cotacao foi lida. Mensagem do servidor:</p><p style="margin-top:8px;padding:10px;background:#fbeae8;border-radius:8px;font-family:var(--mono);font-size:12px;color:var(--danger)">'+ultimoErro+'</p><p style="margin-top:10px">Isso quase sempre e a implantacao do Apps Script. Confira: (1) implantacao com acesso <b>"Qualquer pessoa"</b>; (2) propriedade <b>OPENAI_KEY</b> definida no script; (3) voce autorizou o script ao salva-lo.</p>');
     }
   } finally {
+    if(durs.length) await store.set('cfg:secsPerFile', (durs.reduce((x,y)=>x+y,0)/durs.length).toFixed(1)); // aprende p/ próxima
     $('#analyze').disabled=false;
     if(cotacoes.length) await Loader.done();
   }
@@ -657,7 +809,7 @@ $('#demo').onclick=async()=>{
 };
 
 /* ---------- comparação ---------- */
-async function mostrarResultados(){
+async function mostrarResultados(view){
   await carregarBanco();
   await registrarHistorico(cotacoes);
   const grupos=new Map();
@@ -668,6 +820,16 @@ async function mostrarResultados(){
     const g=grupos.get(k); g.precos[cot.fornecedor]=it.precoFinal; g.items[cot.fornecedor]=it;
   }
   FORNS=cotacoes.map(c=>c.fornecedor);
+  // aplica preços inseridos manualmente onde o fornecedor não tinha o item
+  for(const g of grupos.values()){
+    const repQty=(FORNS.map(f=>g.items[f]).find(it=>it&&it.qtd)||{}).qtd||1;
+    for(const f of FORNS){
+      if(g.precos[f]==null){
+        const mv=MANUAL[f+'||'+g.chave];
+        if(mv!=null){ g.precos[f]=mv; g.items[f]={manual:true, qtd:repQty, precoFinal:mv, precoBase:mv, descricao:'(preço inserido manualmente)', codigo:'', status:'ok'}; }
+      }
+    }
+  }
   GRUPOS=[...grupos.values()];
 
   let flags=0, matched=0, otima=0; const totForn={}; FORNS.forEach(f=>totForn[f]=0);
@@ -683,8 +845,7 @@ async function mostrarResultados(){
   await renderTabela(totForn);
   renderReview();
   $('#cmpnote').textContent=`${matched} itens comparáveis entre ${FORNS.length} fornecedores · ${GRUPOS.length} produtos no total`;
-  $('#stage').style.display='none'; $('#results').classList.add('on');
-  window.scrollTo({top:0,behavior:'smooth'});
+  mostrarView(view||'org');
 }
 function renderKPIs({nItens,nForn,economia,flags}){
   $('#kpis').innerHTML=`
@@ -704,14 +865,17 @@ async function renderTabela(totForn){
     const cells=[];
     for(const f of FORNS){
       const it=g.items[f], p=g.precos[f];
-      if(p==null){ cells.push(`<td class="num"><span class="cell-empty" title="Este fornecedor não incluiu este item na cotação">sem cotação</span></td>`); continue; }
+      if(p==null){ cells.push(`<td class="num cell-np" data-f="${f}" data-k="${g.chave}" onclick="editarPreco(this)">
+        <span class="txt">não tinha esse produto na cotação desse fornecedor</span><span class="add">+ inserir preço</span></td>`); continue; }
       const win=f===g.winner && FORNS.filter(x=>g.precos[x]!=null).length>1;
-      const stamp = it.status==='ok'?'<span class="stamp ok" title="conferido: preço × quantidade fecha com o subtotal">✓</span>'
+      const stamp = it.manual ? '<span class="stamp man" title="preço inserido manualmente">✎</span>'
+        : it.status==='ok'?'<span class="stamp ok" title="conferido: preço × quantidade fecha com o subtotal">✓</span>'
         : '<span class="stamp bad" title="a conta não fechou com o subtotal — conferir">!</span>';
-      const v=await variacao(g.chave,p,f);
+      const v = it.manual ? null : await variacao(g.chave,p,f);
       let tr=''; if(v){ const cls=v.pct>0.5?'up':v.pct<-0.5?'down':'flat'; const arw=v.pct>0.5?'▲':v.pct<-0.5?'▼':'▬';
         tr=`<span class="trend ${cls}" title="antes ${brl4(v.ant)}">${arw}${Math.abs(v.pct).toFixed(0)}%</span>`; }
-      cells.push(`<td class="num ${win?'cell-win':''}"><span class="price">${stamp}${brl4(p)}${tr}</span></td>`);
+      const editar = it.manual ? `<span class="manu-edit" onclick="event.stopPropagation();editarPreco(this.closest('td'))">editar / remover</span>` : '';
+      cells.push(`<td class="num ${win?'cell-win':''}" data-f="${f}" data-k="${g.chave}"><span class="price">${stamp}${brl4(p)}${tr}</span>${editar}</td>`);
     }
     const semPar=FORNS.filter(f=>g.precos[f]!=null).length<2;
     rows.push(`<tr>
@@ -749,27 +913,134 @@ function sincronizarScroll(){
   }
 }
 function renderReview(){
-  const rev=GRUPOS.filter(g=>{
-    const comparavel=FORNS.filter(f=>g.precos[f]!=null).length>1;
-    const bad=FORNS.some(f=>g.items[f]?.status==='bad');
-    const semPar=FORNS.filter(f=>g.precos[f]!=null).length<2 && FORNS.length>1;
-    return bad || semPar || (famAmbigua(g.fam)&&comparavel);
-  });
+  // só aritmética: itens onde preço × qtde não fecha com o subtotal
+  const rev=GRUPOS.filter(g=> FORNS.some(f=>g.items[f]?.status==='bad'));
   if(!rev.length){ $('#review').style.display='none'; return; }
   $('#review').style.display='block';
-  const keys=[...new Set(GRUPOS.map(g=>g.chave))];
-  $('#revlist').innerHTML=rev.slice(0,14).map(g=>{
-    const motivo=FORNS.some(f=>g.items[f]?.status==='bad')?'conta não fechou'
-      :famAmbigua(g.fam)?'família '+g.fam+' — confirme o par':'sem correspondente em outro fornecedor';
-    return `<div class="rev-item">
-      <div class="desc">${g.desc}<div class="code">${g.code} · <span style="color:var(--warn)">${motivo}</span></div></div>
-      <select data-code="${g.code}" onchange="aplicarDepara(this)">
-        <option value="">manter separado</option>
-        ${keys.filter(k=>k!==g.chave).map(k=>`<option value="${k}">unir com: ${k}</option>`).join('')}
-      </select></div>`;
+  $('#revlist').innerHTML=rev.slice(0,20).map(g=>{
+    const fs=FORNS.filter(f=>g.items[f]?.status==='bad');
+    return `<div class="rev-item"><div class="desc">${g.desc}<div class="code">${g.code} · <span style="color:var(--warn)">${fs.join(', ')}: preço × qtde não fecha com o subtotal</span></div></div></div>`;
   }).join('');
 }
-window.aplicarDepara=async sel=>{ if(sel.value){ await setOverride(sel.dataset.code,sel.value); await mostrarResultados(); } };
+
+/* ============================================================ ORGANIZAR PRODUTOS (arrastar / tocar) ============================================================ */
+let ORG=[], orgSel=null, orgDragCod=null;
+function orgFind(cod){ for(const g of ORG){ const c=g.chips.find(x=>x.codigo===cod); if(c) return {g,c}; } return null; }
+
+function abrirOrganizar(){
+  ORG = GRUPOS.map((g,idx)=>({
+    id:'g'+idx, canonical:g.chave, fam:g.fam,
+    chips: FORNS.filter(f=>g.items[f]).map(f=>{ const it=g.items[f];
+      return {forn:f, codigo:it.codigo, descricao:it.descricao, preco:it.precoFinal, natural:chave(it.codigo,it.descricao)}; })
+  })).filter(grp=>grp.chips.length);
+  orgSel=null;
+  $('#orgSub').textContent = ORG.length+' produtos · '+FORNS.length+' fornecedores';
+  $('#orgSearch').value=''; $('#orgSoFalta').checked=false; $('#orgMoving').textContent='';
+  // liga a faixa "Separar" uma única vez
+  if(!window._orgWired){ window._orgWired=true;
+    const sp=$('#orgSplit');
+    sp.addEventListener('dragover',e=>{e.preventDefault();sp.classList.add('hot');});
+    sp.addEventListener('dragleave',()=>sp.classList.remove('hot'));
+    sp.addEventListener('drop',e=>{e.preventDefault();sp.classList.remove('hot'); const cod=orgDragCod||(e.dataTransfer&&e.dataTransfer.getData('text/plain')); if(cod) orgMover(cod,'split');});
+    sp.addEventListener('click',()=>{ if(orgSel) orgMover(orgSel,'split'); });
+  }
+  renderOrganizar();
+}
+
+/* menu de navegação: Organizar (1) / Análise (2) */
+function mostrarView(v){
+  document.body.classList.remove('landing');       // sai da abertura institucional -> header fixo
+  $('#menu').style.display='flex'; $('#stage').style.display='none';
+  const org = v==='org';
+  if(org) abrirOrganizar();                 // reconstrói a partir do estado atual
+  $('#organizar').classList.toggle('on', org);
+  $('#results').classList.toggle('on', !org);
+  $('#tabOrg').classList.toggle('on', org);
+  $('#tabAnalise').classList.toggle('on', !org);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+$('#tabOrg').onclick=()=>mostrarView('org');
+$('#tabAnalise').onclick=()=>mostrarView('analise');
+
+/* editar / inserir preço na célula "não tinha na cotação" */
+window.editarPreco=(td)=>{
+  const f=td.dataset.f, k=td.dataset.k, key=f+'||'+k, atual=MANUAL[key];
+  td.innerHTML=`<input class="np-input" type="text" inputmode="decimal" value="${atual!=null?(''+atual).replace('.',','):''}" placeholder="0,00" aria-label="preço">`;
+  const inp=td.querySelector('input'); inp.focus(); inp.select(); let feito=false;
+  const salvar=async()=>{ if(feito)return; feito=true;
+    const vnum=toNum(inp.value);
+    await setPrecoManual(f, k, vnum);
+    await mostrarResultados('analise');
+  };
+  inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault();salvar();} if(e.key==='Escape'){feito=true;mostrarResultados('analise');} });
+  inp.addEventListener('blur', salvar);
+};
+
+function orgChipHtml(c){
+  return `<div class="org-chip ${orgSel===c.codigo?'sel':''}" draggable="true" data-cod="${c.codigo}"
+      ondragstart="orgDragStart(event,'${c.codigo}')" ondragend="orgDragEnd()"
+      onclick="event.stopPropagation(); orgChipClick('${c.codigo}')">
+      <span class="grip">⋮⋮</span>
+      <div class="ci"><div class="cf">${c.forn}</div><div class="cd" title="${(c.descricao||'').replace(/"/g,'&quot;')}">${c.descricao||''}</div><div class="cc">${c.codigo}</div></div>
+      <span class="cp">${brl4(c.preco)}</span></div>`;
+}
+function renderOrganizar(){
+  const q=($('#orgSearch').value||'').toLowerCase().trim();
+  const soFalta=$('#orgSoFalta').checked;
+  let vis = ORG.filter(grp=>{
+    if(soFalta && grp.chips.length>=FORNS.length) return false;
+    if(q && !grp.chips.some(c=>(c.descricao+' '+c.codigo+' '+c.forn).toLowerCase().includes(q))) return false;
+    return true;
+  });
+  vis.sort((a,b)=> a.chips.length-b.chips.length);   // incompletos primeiro
+  $('#orgGrid').innerHTML = vis.length ? vis.map(grp=>{
+    const prim=grp.chips[0], single=grp.chips.length<FORNS.length;
+    return `<div class="org-box ${single?'single':''}" data-gid="${grp.id}" ondragover="orgOver(event,this)" ondragleave="this.classList.remove('hot')" ondrop="orgDrop(event,'${grp.id}')" onclick="orgBoxClick('${grp.id}')">
+      <div class="org-box-h"><span class="fam">${grp.fam}</span><b>${(prim.descricao||'').slice(0,46)}</b><span class="cnt">${grp.chips.length}/${FORNS.length}</span></div>
+      ${grp.chips.map(orgChipHtml).join('')}
+    </div>`;
+  }).join('') : '<div style="color:var(--ink-faint);font-size:13px;padding:24px;text-align:center;grid-column:1/-1">Nenhum item com esse filtro.</div>';
+}
+function orgMover(cod, destGid){
+  const src=orgFind(cod); if(!src) return;
+  if(destGid==='split'){
+    if(src.g.chips.length<=1){ orgSel=null; $('#orgMoving').textContent=''; renderOrganizar(); return; } // já está sozinho
+    src.g.chips=src.g.chips.filter(x=>x.codigo!==cod);
+    ORG.push({id:'s'+Date.now().toString(36)+Math.random().toString(36).slice(2,5), canonical:'S:'+cod, fam:familia(src.c.descricao), chips:[src.c]});
+  }else{
+    const dest=ORG.find(g=>g.id===destGid); if(!dest||dest===src.g) return;
+    src.g.chips=src.g.chips.filter(x=>x.codigo!==cod);
+    dest.chips.push(src.c);
+  }
+  ORG=ORG.filter(g=>g.chips.length);
+  orgSel=null; $('#orgMoving').textContent=''; renderOrganizar();
+}
+/* arrastar (desktop) */
+window.orgDragStart=(e,cod)=>{ orgDragCod=cod; orgSel=null; try{e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain',cod);}catch(_){ } };
+window.orgDragEnd=()=>{ orgDragCod=null; document.querySelectorAll('.org-box.hot,.org-split.hot').forEach(x=>x.classList.remove('hot')); };
+window.orgOver=(e,el)=>{ e.preventDefault(); el.classList.add('hot'); };
+window.orgDrop=(e,gid)=>{ e.preventDefault(); document.querySelectorAll('.hot').forEach(x=>x.classList.remove('hot')); const cod=orgDragCod||(e.dataTransfer&&e.dataTransfer.getData('text/plain')); if(cod) orgMover(cod,gid); };
+/* tocar (celular): toca no item, depois no destino */
+window.orgChipClick=(cod)=>{ orgSel=(orgSel===cod)?null:cod; $('#orgMoving').textContent = orgSel?'Movendo este item — toque no produto de destino (ou na faixa Separar).':''; renderOrganizar(); };
+window.orgBoxClick=(gid)=>{ if(orgSel) orgMover(orgSel,gid); };
+
+async function salvarOrganizacao(){
+  const mudancas=[];
+  for(const g of ORG) for(const c of g.chips){
+    const desejado=g.canonical, atual=DEPARACACHE[c.codigo]||null, efetivo=atual||c.natural;
+    if(desejado!==efetivo) mudancas.push([c.codigo,desejado]);
+  }
+  if(!mudancas.length){ mostrarView('analise'); return; }
+  Loader.start(['Salvando organização...','Atualizando a comparação...']);
+  try{
+    for(const [cod,key] of mudancas) await setOverride(cod,key);
+    await mostrarResultados('analise');
+  } finally { await Loader.done(); }
+}
+$('#orgCancel').onclick=()=>mostrarView('analise');
+$('#orgSave').onclick=salvarOrganizacao;
+$('#orgSearch').oninput=renderOrganizar;
+$('#orgSoFalta').onchange=renderOrganizar;
 
 window.verHistorico=async k=>{
   const arr=await historicoDe(k);
@@ -791,7 +1062,7 @@ $$('.tg').forEach(t=>t.onclick=async()=>{
   try{
     for(const cot of cotacoes) for(const it of cot.itens) aplicarModo(it);
     Loader.milestone(60);
-    await mostrarResultados();
+    await mostrarResultados('analise');
     Loader.milestone(95);
   } finally { await Loader.done(); }
 });
@@ -809,7 +1080,9 @@ $('#expCsv').onclick=()=>{
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
   a.download='comparativo-cotacoes-'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
 };
-$('#reset').onclick=()=>{ arquivos=[]; cotacoes=[]; DEMO_MODE=false; $('#results').classList.remove('on'); $('#stage').style.display='block'; renderQueue(); window.scrollTo({top:0}); };
+function reiniciar(){ arquivos=[]; cotacoes=[]; DEMO_MODE=false; document.body.classList.add('landing'); $('#results').classList.remove('on'); $('#organizar').classList.remove('on'); $('#menu').style.display='none'; $('#stage').style.display='block'; renderQueue(); window.scrollTo({top:0}); }
+$('#reset').onclick=reiniciar;
+$('#reset2').onclick=reiniciar;
 
 /* ============================================================ DADOS DE EXEMPLO (Belenus × Suprir reais) ============================================================ */
 const DEMO=[
